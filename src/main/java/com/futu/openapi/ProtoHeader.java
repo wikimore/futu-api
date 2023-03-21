@@ -1,7 +1,6 @@
 package com.futu.openapi;
 
 import com.google.common.base.MoreObjects;
-import io.netty.buffer.ByteBuf;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -35,20 +34,6 @@ public class ProtoHeader {
     return header;
   }
 
-  public static ProtoHeader parse(ByteBuf buf) {
-    ProtoHeader header = new ProtoHeader();
-    buf.readBytes(header.szHeaderFlag);
-    header.nProtoID = buf.readIntLE();
-    header.nProtoFmtType = buf.readByte();
-    header.nProtoVer = buf.readByte();
-    header.nSerialNo = buf.readIntLE();
-    header.nBodyLen = buf.readIntLE();
-    header.arrBodySHA1 = new byte[20];
-    buf.readBytes(header.arrBodySHA1);
-    buf.readBytes(header.arrReserved);
-    return header;
-  }
-
   public void write(byte[] dst) {
     if (dst.length < HEADER_SIZE) throw new IllegalArgumentException("dst capacity not enough");
 
@@ -62,11 +47,6 @@ public class ProtoHeader {
     buffer.putInt(nBodyLen);
     buffer.put(arrBodySHA1);
     buffer.put(arrReserved);
-  }
-
-  public void write(ByteBuf dst) {
-    dst.writeBytes(szHeaderFlag).writeIntLE(nProtoID).writeByte(nProtoFmtType).writeByte(nProtoVer)
-            .writeIntLE(nSerialNo).writeIntLE(nBodyLen).writeBytes(arrBodySHA1).writeBytes(arrReserved);
   }
 
   @Override

@@ -1,38 +1,40 @@
 package com.futu.openapi;
 
-public class FTAPI_Conn_Trd_Thread extends FTAPI_Conn_Trd{
-    PacketExecutor packetExecutor = new PacketExecutor(this::handleReply, this::handlePush, this::handleInitConnect);
+import com.google.common.util.concurrent.SettableFuture;
 
-    void handleReply(ReqReplyType replyType, ProtoHeader protoHeader, byte[] data) {
-        super.onReply(replyType, protoHeader, data);
-    }
+public class FTAPI_Conn_Trd_Thread extends FTAPI_Conn_Trd {
+  PacketExecutor packetExecutor = new PacketExecutor(this::handleReply, this::handlePush, this::handleInitConnect);
 
-    void handlePush(ProtoHeader protoHeader, byte[] data) {
-        super.onPush(protoHeader, data);
-    }
+  void handleReply(ReqReplyType replyType, SettableFuture future, ProtoHeader protoHeader, byte[] data) {
+    super.onReply(replyType, future, protoHeader, data);
+  }
 
-    void handleInitConnect(long errCode, String desc) {
-        super.onInitConnect(errCode, desc);
-    }
+  void handlePush(ProtoHeader protoHeader, byte[] data) {
+    super.onPush(protoHeader, data);
+  }
 
-    @Override
-    public void close() {
-        packetExecutor.close();
-        super.close();
-    }
+  void handleInitConnect(long errCode, String desc) {
+    super.onInitConnect(errCode, desc);
+  }
 
-    @Override
-    protected void onReply(ReqReplyType replyType, ProtoHeader protoHeader, byte[] data) {
-        packetExecutor.addReply(replyType, protoHeader, data);
-    }
+  @Override
+  public void close() {
+    packetExecutor.close();
+    super.close();
+  }
 
-    @Override
-    protected synchronized void onPush(ProtoHeader protoHeader, byte[] data) {
-        packetExecutor.addPush(protoHeader, data);
-    }
+  @Override
+  protected void onReply(ReqReplyType replyType, SettableFuture future, ProtoHeader protoHeader, byte[] data) {
+    packetExecutor.addReply(replyType, future, protoHeader, data);
+  }
 
-    @Override
-    protected void onInitConnect(long errCode, String desc) {
-        packetExecutor.addInitConnect(errCode, desc);
-    }
+  @Override
+  protected synchronized void onPush(ProtoHeader protoHeader, byte[] data) {
+    packetExecutor.addPush(protoHeader, data);
+  }
+
+  @Override
+  protected void onInitConnect(long errCode, String desc) {
+    packetExecutor.addInitConnect(errCode, desc);
+  }
 }

@@ -1,6 +1,7 @@
 package com.futu.openapi;
 
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
+
 import java.security.Security;
 
 public class FTAPI {
