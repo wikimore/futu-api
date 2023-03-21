@@ -2,7 +2,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.futu.openapi</groupId>
+    <groupId>com.futunn.openapi</groupId>
     <artifactId>futu-api</artifactId>
     <version>7.1.83308</version>
     <packaging>jar</packaging>
