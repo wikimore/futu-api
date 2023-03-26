@@ -312,10 +312,9 @@ public class FTAPI_Conn_Qot extends FTAPI_Conn {
    * @return 请求的序列号
    */
   public QotModifyUserSecurity.Response modifyUserSecurity(QotModifyUserSecurity.Request req) {
-    sendProto(ProtoID.QOT_MODIFYUSERSECURITY, req);
     Future<QotModifyUserSecurity.Response> responseFuture = sendProto(ProtoID.QOT_MODIFYUSERSECURITY, req);
-    QotModifyUserSecurity.Response response = Futures.getUnchecked(responseFuture);
-    return response;
+//    QotModifyUserSecurity.Response response = Futures.getUnchecked(responseFuture);
+    return null;
   }
 
   /***
