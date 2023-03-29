@@ -85,15 +85,8 @@ public class FTAPI_Conn implements AutoCloseable, ConnHandler {
     }
   }
 
-  /***
-   * 断开与OpenD的连接
-   * @return 是否成功
-   * @deprecated 已经废弃，统一使用close关闭
-   */
-  @Deprecated
-  public boolean disconnect() {
-    close();
-    return true;
+  public ConnStatus getConnStatus() {
+    return connStatus;
   }
 
   /***
